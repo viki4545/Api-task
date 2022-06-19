@@ -1,0 +1,38 @@
+<%- include("partials/header.ejs") -%>
+
+<%- include("partials/navbar.ejs") -%> 
+
+<div class="container">
+    <div class="cardSignup">
+        <div class="banner">
+            <img class="profile-photo" src="images/Avtar3.png" alt="">
+        </div>
+        <div class="card-content">
+        <form action="/Signup" method="post">
+            <div class="email">
+                <p>Name</p>
+                <input type="text" name="name" id="" placeholder="Enter your name">
+            </div>
+            <div class="email">
+                <p>Phone Number</p>
+                <input type="text" minlength="10" maxlength="10" name="phone" id="" placeholder="Enter your phone">
+            </div>
+            <div class="email">
+                <p>Emai Address</p>
+                <input type="email" name="email" id="" placeholder="Enter your email">
+            </div>
+            <div class="email">
+                <p>Password</p>
+                <input type="password" name="password" id="" placeholder="Enter your password">
+            </div>
+            <div class="button">
+                <button type="submit">SignUp</button>
+            </div>
+        </form>
+        </div>
+        
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") -%> 
+    

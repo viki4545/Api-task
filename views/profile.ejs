@@ -1,0 +1,32 @@
+<%- include("partials/header.ejs") -%>
+
+<%- include("partials/navbar.ejs") -%> 
+
+<div class="container">
+    <div class="cardLogin">
+        <div class="banner">
+            <img class="profile-photo" src="images/Avtar3.png" alt="">
+        </div>
+        <div class="card-content">
+         <form action="/login" method="post">
+            <div class="email">
+                <h3>Name : </h3>
+                <h5><%= data.name %></h5>
+            </div>
+            <div class="email">
+                <h3>Email : </h3>
+                <h5><%= data.email %></h5>
+            </div>
+            <div class="email">
+                <h3>Phone : </h3>
+                <h5><%= data.phone %></h5>
+            </div>
+            </div>
+        </form> 
+        </div>
+        
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") -%> 
+    

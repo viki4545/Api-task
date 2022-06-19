@@ -1,0 +1,33 @@
+<%- include("partials/header.ejs") -%>
+
+<%- include("partials/navbar.ejs") -%> 
+
+<div class="container">
+    <div class="cardLogin">
+        <div class="banner">
+            <img class="profile-photo" src="images/Avtar3.png" alt="">
+        </div>
+        <div class="card-content">
+         <form action="/login" method="post">
+            <div class="email">
+                <p>Emai Address</p>
+                <input type="email" name="email" id="" placeholder="Enter your email">
+            </div>
+            <div class="email" style="margin-bottom: 10px;">
+                <p>Password</p>
+                <input type="password" name="password" id="" placeholder="Enter your password">
+            </div>
+            <div class="email">
+                <a  href="/emailsend">Forget Password?</a>
+            </div>
+            <div class="button">
+                <button type="submit" >Login</button>
+            </div>
+        </form> 
+        </div>
+        
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") -%> 
+    

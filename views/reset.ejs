@@ -1,0 +1,25 @@
+<%- include("partials/header.ejs") -%>
+
+<%- include("partials/navbar.ejs") -%> 
+
+<div class="container">
+    <div class="cardLogin">
+        <div class="banner">
+            <img class="profile-photo" src="images/Avtar3.png" alt="">
+        </div>
+        <div class="card-content">
+         <form action="/emailsend" method="post">
+            <div class="email">
+                <h1>Email Address</h1>
+                <input type="email" name="email" id="" placeholder="Enter Your Email Address">
+            </div>
+            <div class="button">
+                <button type="submit">Send Otp</button>
+            </div>
+        </form> 
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") -%> 
+    

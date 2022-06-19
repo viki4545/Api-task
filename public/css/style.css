@@ -1,0 +1,201 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* nav-bar style */
+nav{
+    width: 100%;
+    height: 100px;
+    background-color: #4563E4;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.logo{
+    width: 40%;
+    padding-left: 100px;
+}
+
+.logo h1{
+    text-transform: capitalize;
+    color: #ffffff;
+}
+
+.menu{
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.menu a {
+    color: #023047;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+}
+
+.menu a::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 0;
+    height: 3px;
+    background-color: #000;
+    transition: all 0.5s linear;
+}
+
+.menu a:hover::before{
+    width: 15%;
+    background-color: #ffffff;
+}
+
+
+
+/* card styles */
+
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+.cardLogin{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 2rem;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
+    height: 610px;
+    margin: 6rem auto 8.1rem auto;
+    width: 450px;
+    position: relative;
+}
+
+.cardSignup{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 2rem;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
+    height: 800px;
+    margin: 6rem auto 8.1rem auto;
+    width: 450px;
+    position: relative;
+}
+
+.banner{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 8rem;
+    background-color: #4563E4;
+    /* box-sizing: border-box; */
+}
+.profile-photo{
+    position: absolute;
+    width: 124px;
+    height: 124px;
+    border-radius: 50%;
+    transform: translateY(50%);
+}
+.card-content{
+    height: 50px;
+    margin-top: 80px;
+    margin-bottom: 0px;
+    background-color: #FEFEFE;
+    border-radius: 8px;
+}
+
+.email{
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
+.email p{
+    width: 343px;
+    height: 18px;
+    color: #416475;
+    order: 0;
+    flex-grow: 0;
+    font-weight: bold;
+    font-size: 12px;
+    font-style: normal;
+    line-height: 18px;
+    align-self: stretch;
+}
+
+.email input{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 12px;
+    gap: 8px;
+    width: 343px;
+    height: 30px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    border: none;
+}
+
+a{
+    width: 343px;
+    height: 18px;
+    color: #416475;
+    text-decoration: none;
+}
+
+.button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+button{
+    padding: 12px 24px;
+    gap: 8px;
+    width: 343px;
+    height: 48px;
+    background-color: #4563E4;
+    border-radius: 35px;
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+    color: #ffffff;
+}
+
+.email h3, h1{
+    color: #4563E4;
+}
+
+.email h5{
+    margin-left: 30px;
+}
+
+footer{
+    display: flex;
+    width: 100%;
+    height: 80px;
+    background-color: #4563E4;
+    justify-content: center;
+    align-items: center;
+}
+
+footer p{
+    color: #f7f7f7;
+    text-align: center;
+}
+
+
+
+
