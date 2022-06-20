@@ -5,7 +5,7 @@
 
     >  `node app`
 
-* And the in the browser type the following:
+* And then in the browser type the following:
     
     > `localhost:3000`
     
