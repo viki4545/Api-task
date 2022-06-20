@@ -1,5 +1,5 @@
 # Api-task
-* In this api-task i have implement where you can register and login 
+* In this api-task i have implement where you can register, login & change your password 
 
 * for running the project you can type the following command and enter
 
