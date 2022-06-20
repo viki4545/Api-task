@@ -1,22 +1,21 @@
 const User = require("../models/user");
-const Otp = require("../models/otp");
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 
-const userList = async (req, res) => {
-    let data = await User.find();
-    res.json(data);
-}
-
-const userAdd = async (req, res) => {
+// register new user
+const userAdd = async (req, res, next) => {
     let {name,phone,email,password} = req.body;
     let data = new User({name,phone,email,password});
     let response = data.save();
     let myToken = await data.getAuthToken();
-    res.status(200).json({message: "ok",token:myToken});
+    res.redirect("/login");
+    console.log("User register sucessfully!!");
 }
 
-const userLogin = async (req, res) => {
+
+// login route
+const userLogin = async (req, res, next) => {
     const username = req.body.email;
     const password = req.body.password;
     
@@ -25,8 +24,6 @@ const userLogin = async (req, res) => {
     }
 
     let user = await User.findOne({username});
-    console.log(user.email);
-    console.log(username);
     if(user.email === username){
         var match = await bcrypt.compare(password, user.password);
         if(match){
@@ -39,50 +36,89 @@ const userLogin = async (req, res) => {
     }else{
         console.log("Invalid EmailId!");
     }
-    res.status(200);
 }
 
-const emailSend = async (req, res, err) => {
-    let data = await User.findOne({email: req.body.email});
-    if(data){
-        let otpCode = Math.floor(Math.random()*10000+1);
-        let otpData = new Otp({
-            email: req.body.email,
-            code: otpCode,
-            expireIn: new Date().getTime() + 300*1000
-        });
-        let otpResponse = await otpData.save();
-        mailer(req.body.email,otpCode);
-        console.log(req.body.email);
-        res.redirect("/resetpassword");
-        
-    }else{
-        console.log("Email Id did not exist!");
+
+// forget password
+const forgetPassword = async (req, res, next) => {
+    const {email} = req.body;
+    let user = await User.findOne({email: email});
+    if(user.email !== email){
+        res.send("User not registered!");
+        return;
     }
-    res.status(200);
-}
 
-const resetPassword = async (req, res) => {
-    let data = await Otp.find({email:req.body.email,code:req.body.otpCode});
-    if(data){
-        let currentTime = new Date().getTime();
-        let diff = data.expireIn - currentTime;
-        if(diff < 0){
-            console.log("Token expire");
-        }else{
-            let user = await User.findOne({email: req.body.email});
-            console.log(user.email);
-            user.password = req.body.password;
-            user.save();
-            console.log("Password changed sucessfully!");
-        }
-    }else{
-        console.log("Invalid Otp!");
+    const secret = process.env.SECRETKEY + user.password;
+    const payload = {
+        email: user.email,
+        id: user.id
     }
-    res.status(200);
+
+    const token = jwt.sign(payload, secret, {expiresIn: "15m"});
+    const link = `http://localhost:3000/reset-password/${user._id}/${token}`;
+    mailer(email, link);
+    res.send("Reset password link has send to your email id");
 }
 
-const mailer = (email, otp) => {
+
+// reset password
+
+const resetPasswordGet = async(req, res, next) => {
+    const {id, token} = req.params;
+    let user = await User.findOne({_id: id});
+    
+    // check if this id exist in the database
+    if(id !== user.id){
+        res.send("Invalid id!");
+        return;
+    }
+
+    // We have a valid user id 
+    const secret = process.env.SECRETKEY + user.password;
+    try {
+        const payload = jwt.verify(token, secret);
+        res.render("reset-password", {id: req.params.id, token: req.params.token});
+        next();
+    } catch (error) {
+        console.log(error.message);
+        res.send(error.message);
+    }
+}
+
+
+const resetPasswordPost = async(req, res, next) => {
+    
+    const {id, token} = req.params;
+    const {password, password2} = req.body;
+
+    let user = await User.findOne({_id:id});
+    // check if this id exist in the database
+    if(id !== user.id){
+        res.send("Invalid id");
+        return;
+    }
+    const secret = process.env.SECRETKEY + user.password;
+    try {
+        const payload = jwt.verify(token, secret);
+        //verify the password & password2
+         //we can simply find the user with payload email and id  and then update their password.
+         if(password !== password2){
+            res.send("confirm password didn't match with password!");
+            return;
+         } 
+
+         user.password = password;
+         user.save();
+         res.redirect("/login");
+    } catch (error) {
+        console.log(error.message);
+        res.send(error.message);
+    }
+}
+
+
+// mailer who send link to the mail
+const mailer = (email, link) => {
 
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -97,8 +133,8 @@ const mailer = (email, otp) => {
       var mailOptions = {
         from: process.env.EMAIL, // sender address
         to: email, // list of receivers
-        subject: "Sending Email using Node.js", // Subject line
-        text: "Thank you sir !" // plain text body
+        subject: "Reset password", // Subject line
+        text: link // plain text body
       }
 
       transporter.sendMail(mailOptions, function(err, info){
@@ -111,9 +147,9 @@ const mailer = (email, otp) => {
 }
 
 module.exports = {
-    userList,
     userAdd,
     userLogin,
-    emailSend,
-    resetPassword
+    forgetPassword,
+    resetPasswordGet,
+    resetPasswordPost
 };

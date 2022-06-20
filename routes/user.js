@@ -3,23 +3,13 @@ const bodyParser = require("body-parser");
 const router = express.Router();
 const userCntrl = require("../controllers/userController");
 const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
 router.use(bodyParser.urlencoded({extended: false}));
 
-var jwtAuth = (req, res, next) => {
-    var token = req.headers.authorization;
-    token = token.split(" ")[1];
-    jwt.verify(token, process.env.SECRETKEY, function(err, decoded){
-        if(err){
-            res.send({message: "Invalid Token"});
-        }else{
-            next();
-        }
-    })
-}
 
 router.get("/", (req, res) => {
-    res.render("login");
+    res.send("Hello World!!");
 })
 
 router.get("/login", (req, res) => {
@@ -28,29 +18,25 @@ router.get("/login", (req, res) => {
 
 router.post("/login", userCntrl.userLogin)
 
-router.get("/Signup", (req, res) => {
+router.get("/signup", (req, res) => {
     res.render("signup");
 })
 
-router.post("/Signup", userCntrl.userAdd)
+router.post("/signup", userCntrl.userAdd)
 
 router.get("/profile", (req, res) =>{
     res.render("profile");
 })
 
-router.get("/emailsend", (req, res) => {
-    res.render("reset");
+router.get("/forget-password", (req, res) => {
+    res.render("forget-password");
 })
 
-router.get("/list", jwtAuth, userCntrl.userList);
+router.post("/forget-password", userCntrl.forgetPassword);
 
-router.post("/emailsend", userCntrl.emailSend);
+router.get("/reset-password/:id/:token", userCntrl.resetPasswordGet)
 
-router.get("/resetpassword", (req, res) => {
-    res.render("passwordchange");
-})
-
-router.post("/resetpassword", userCntrl.resetPassword);
+router.post("/reset-password/:id/:token", userCntrl.resetPasswordPost);
 
 
 module.exports = router;

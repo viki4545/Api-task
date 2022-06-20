@@ -34,9 +34,8 @@ userSchema.methods.getAuthToken = async function(data){
     let params = {
         id:this._id,
         email:this.email,
-        phone:this.phone
     }
-    var tokenValue = jwt.sign(params, process.env.SECRETKEY, {expiresIn: "300000s"});
+    var tokenValue = jwt.sign(params, process.env.SECRETKEY, {expiresIn: "15m"});
     this.tokens = this.tokens.concat({token:tokenValue});
     // this.save();
     return tokenValue;
